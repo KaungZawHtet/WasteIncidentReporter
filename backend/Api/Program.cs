@@ -1,7 +1,8 @@
 using Api.Constants;
 using Api.Data;
+using Api.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
+using Scalar.AspNetCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
@@ -41,6 +42,10 @@ try
         }
     });
 
+    builder.Services.AddSingleton<TextEmbeddingService>();
+    builder.Services.AddScoped<SimilarityService>();
+    builder.Services.AddScoped<TrendService>();
+
     builder.Logging.ClearProviders();
 
     builder.Host.UseSerilog(
@@ -67,9 +72,10 @@ try
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
+    if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
     {
         app.MapOpenApi();
+        app.MapScalarApiReference();
     }
 
     app.UseSerilogRequestLogging();

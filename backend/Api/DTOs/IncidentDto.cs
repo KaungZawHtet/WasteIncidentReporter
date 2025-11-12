@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Api.DTOs;
 
-public sealed class CreateIncidentDto
+public sealed class IncidentDto
 {
     public string Description { get; set; } = string.Empty;
     public DateTimeOffset Timestamp { get; set; }

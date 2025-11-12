@@ -11,7 +11,7 @@ public sealed class TrendService
 
     public async Task<object> GetDailyCountsAsync(int days = 14)
     {
-        var start = DateTimeOffset.UtcNow.Date.AddDays(-days);
+        var start = new DateTimeOffset(DateTime.UtcNow.Date.AddDays(-days), TimeSpan.Zero);
         var data = await _db
             .Incidents.AsNoTracking()
             .Where(i => i.Timestamp >= start)

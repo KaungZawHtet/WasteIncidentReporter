@@ -10,4 +10,6 @@ public interface IIncidentService
     Task<Incident> CreateIncidentAsync(IncidentDto incident, float[]? textVector = null);
     Task<Incident?> UpdateIncidentAsync(Guid id, IncidentDto incident, float[]? textVector = null);
     Task<bool> DeleteIncidentAsync(Guid id);
+
+    Task<List<Incident>> ImportIncidentsFromCsvAsync(Stream csvStream);
 }

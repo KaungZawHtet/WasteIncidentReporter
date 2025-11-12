@@ -6,4 +6,5 @@ public class IncidentDto
     public string Location { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
     public string Status { get; set; } = "open";
+    public DateTimeOffset? Timestamp { get; set; }
 }

@@ -1,7 +1,10 @@
+using System.Globalization;
 using Api.Abstractions;
 using Api.Data;
 using Api.DTOs;
 using Api.Entities;
+using Api.Utilities;
+using CsvHelper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services;
@@ -10,11 +13,17 @@ public sealed class IncidentService : IIncidentService
 {
     private readonly AppDbContext _db;
     private readonly TextEmbeddingService _embedding;
+    private readonly WasteClassificationService _classifier;
 
-    public IncidentService(AppDbContext db, TextEmbeddingService embedding)
+    public IncidentService(
+        AppDbContext db,
+        TextEmbeddingService embedding,
+        WasteClassificationService classifier
+    )
     {
         _db = db;
         _embedding = embedding;
+        _classifier = classifier;
     }
 
     public Task<List<Incident>> ListAllIncident(int skip = 0, int take = 50)
@@ -51,7 +60,14 @@ public sealed class IncidentService : IIncidentService
             Location = incident.Location ?? string.Empty,
             Category = incident.Category ?? string.Empty,
             Status = string.IsNullOrWhiteSpace(incident.Status) ? "open" : incident.Status,
+            Timestamp = incident.Timestamp ?? DateTimeOffset.UtcNow,
         };
+
+        if (string.IsNullOrWhiteSpace(entity.Category))
+        {
+            var prediction = _classifier.Predict(entity.Description);
+            entity.Category = prediction.Label;
+        }
 
         entity.TextVector = textVector ?? _embedding.Transform(entity.Description);
 
@@ -90,6 +106,16 @@ public sealed class IncidentService : IIncidentService
         {
             existing.Category = incident.Category;
         }
+        else if (string.IsNullOrWhiteSpace(existing.Category))
+        {
+            var classification = _classifier.Predict(existing.Description);
+            existing.Category = classification.Label;
+        }
+
+        if (incident.Timestamp.HasValue)
+        {
+            existing.Timestamp = incident.Timestamp.Value;
+        }
 
         if (!string.IsNullOrWhiteSpace(incident.Status))
         {
@@ -116,5 +142,68 @@ public sealed class IncidentService : IIncidentService
         _db.Incidents.Remove(existing);
         await _db.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<List<Incident>> ImportIncidentsFromCsvAsync(Stream csvStream)
+    {
+        using var reader = new StreamReader(csvStream);
+        var config = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            TrimOptions =
+                CsvHelper.Configuration.TrimOptions.Trim
+                | CsvHelper.Configuration.TrimOptions.InsideQuotes,
+            IgnoreBlankLines = true,
+            MissingFieldFound = null,
+            BadDataFound = null,
+        };
+        using var csv = new CsvReader(reader, config);
+        csv.Context.RegisterClassMap<IncidentCsvMap>();
+
+        var records = new List<IncidentCsvRecord>();
+        await foreach (var record in csv.GetRecordsAsync<IncidentCsvRecord>())
+        {
+            records.Add(record);
+        }
+
+        var incidents = records
+            .Where(r => !string.IsNullOrWhiteSpace(r.Description))
+            .AsParallel()
+            .Select(record =>
+            {
+                var timestamp = DateTimeOffset.UtcNow;
+                if (
+                    !string.IsNullOrWhiteSpace(record.Timestamp)
+                    && DateTimeOffset.TryParse(record.Timestamp, out var parsedTs)
+                )
+                {
+                    timestamp = parsedTs;
+                }
+
+                var description = record.Description!;
+                var category = string.IsNullOrWhiteSpace(record.Category)
+                    ? _classifier.Predict(description).Label
+                    : record.Category!;
+                var vector = _embedding.Transform(description);
+
+                return new Incident
+                {
+                    Description = description,
+                    Location = record.Location ?? string.Empty,
+                    Category = category,
+                    Status = string.IsNullOrWhiteSpace(record.Status) ? "open" : record.Status!,
+                    Timestamp = timestamp,
+                    TextVector = vector,
+                };
+            })
+            .ToList();
+
+        if (incidents.Count == 0)
+        {
+            return incidents;
+        }
+
+        await _db.Incidents.AddRangeAsync(incidents);
+        await _db.SaveChangesAsync();
+        return incidents;
     }
 }

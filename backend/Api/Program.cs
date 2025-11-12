@@ -51,9 +51,11 @@ try
     });
 
     builder.Services.AddSingleton<TextEmbeddingService>();
+    builder.Services.AddSingleton<WasteClassificationService>();
     builder.Services.AddScoped<IIncidentService, IncidentService>();
     builder.Services.AddScoped<SimilarityService>();
     builder.Services.AddScoped<TrendService>();
+    builder.Services.AddScoped<AnomalyService>();
 
     builder.Logging.ClearProviders();
 

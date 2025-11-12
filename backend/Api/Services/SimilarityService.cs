@@ -1,3 +1,4 @@
+using System.Linq;
 using Api.Data;
 using Api.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -32,25 +33,39 @@ public sealed class SimilarityService
         string? nearLocation = null
     )
     {
-        // Optional: locality filter improves precision
+        var matches = await FindTopMatchesAsync(vector, nearLocation, null, 1);
+        return matches.Count == 0
+            ? (null, 0f)
+            : (matches[0].incident, matches[0].score);
+    }
+
+    public async Task<IReadOnlyList<(Incident incident, float score)>> FindTopMatchesAsync(
+        float[] vector,
+        string? nearLocation = null,
+        Guid? excludeId = null,
+        int take = 3
+    )
+    {
+        take = Math.Clamp(take, 1, 10);
         var q = _db.Incidents.AsNoTracking().Where(i => i.TextVector != null);
         if (!string.IsNullOrWhiteSpace(nearLocation))
         {
             q = q.Where(i => i.Location == nearLocation);
         }
 
-        var candidates = await q.ToListAsync();
-        Incident? best = null;
-        float bestScore = 0;
-        foreach (var c in candidates)
+        if (excludeId.HasValue)
         {
-            var s = Cosine(vector, c.TextVector!);
-            if (s > bestScore)
-            {
-                bestScore = s;
-                best = c;
-            }
+            q = q.Where(i => i.Id != excludeId.Value);
         }
-        return (best, bestScore);
+
+        var candidates = await q.ToListAsync();
+        var scored = candidates
+            .Select(c => (incident: c, score: Cosine(vector, c.TextVector!)))
+            .Where(x => x.score > 0)
+            .OrderByDescending(x => x.score)
+            .Take(take)
+            .ToList();
+
+        return scored;
     }
 }

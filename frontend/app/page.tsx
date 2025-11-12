@@ -2,10 +2,11 @@
 
 import { StatCard, StatusBadge } from "@/components/incident";
 import { formatTimestamp, toInputDate } from "@/utils/incident";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "");
+const PAGE_SIZE = 10;
 
 type Incident = {
   id: string;
@@ -42,19 +43,26 @@ export default function IncidentsPage() {
   const [fetching, setFetching] = useState(true);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [importing, setImporting] = useState(false);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const fetchIncidents = useCallback(async () => {
+  const fetchIncidents = useCallback(async (pageToLoad: number = 1) => {
     try {
       setFetching(true);
       setError(null);
-      const res = await fetch(`${API_BASE}/api/incidents?skip=0&take=100`, {
+      const skip = (pageToLoad - 1) * PAGE_SIZE;
+      const res = await fetch(`${API_BASE}/api/incidents?skip=${skip}&take=${PAGE_SIZE}`, {
         cache: "no-store",
       });
       if (!res.ok) {
         throw new Error(`Failed to load incidents (${res.status})`);
       }
       const data = await res.json();
-      setIncidents(data ?? []);
+      setIncidents(data?.items ?? []);
+      setTotal(data?.total ?? 0);
+      setPage(pageToLoad);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
@@ -63,7 +71,7 @@ export default function IncidentsPage() {
   }, []);
 
   useEffect(() => {
-    fetchIncidents();
+    fetchIncidents(1);
   }, [fetchIncidents]);
 
   const resetForm = () => {
@@ -102,7 +110,7 @@ export default function IncidentsPage() {
         throw new Error(detail || "API error");
       }
 
-      await fetchIncidents();
+      await fetchIncidents(1);
       setMessage(editingId ? "Incident updated" : "Incident created");
       resetForm();
     } catch (err) {
@@ -138,7 +146,7 @@ export default function IncidentsPage() {
         throw new Error("Failed to delete incident");
       }
       setMessage("Incident deleted");
-      await fetchIncidents();
+      await fetchIncidents(page);
       if (editingId === incident.id) {
         resetForm();
       }
@@ -148,11 +156,54 @@ export default function IncidentsPage() {
   };
 
   const stats = useMemo(() => {
-    const total = incidents.length;
+    const totalCount = total;
     const open = incidents.filter((i) => i.status === "open").length;
     const resolved = incidents.filter((i) => i.status === "resolved").length;
-    return { total, open, resolved };
-  }, [incidents]);
+    return { total: totalCount, open, resolved };
+  }, [incidents, total]);
+
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const pageStart = total === 0 ? 0 : (page - 1) * PAGE_SIZE + 1;
+  const pageEnd = total === 0 ? 0 : Math.min(page * PAGE_SIZE, total);
+
+  const handlePageChange = (nextPage: number) => {
+    if (nextPage < 1 || nextPage > totalPages) return;
+    fetchIncidents(nextPage);
+  };
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImportChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    setImporting(true);
+    setError(null);
+    setMessage(null);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch(`${API_BASE}/api/incidents/import`, {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) {
+        const detail = await res.text();
+        throw new Error(detail || "Import failed");
+      }
+      const result = await res.json();
+      setMessage(`Imported ${result.imported ?? 0} incidents`);
+      await fetchIncidents(1);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Import failed");
+    } finally {
+      setImporting(false);
+      event.target.value = "";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
@@ -298,12 +349,29 @@ export default function IncidentsPage() {
                 <p className="text-xs uppercase tracking-wide text-zinc-500">Live feed</p>
                 <h2 className="text-lg font-semibold">Recent incidents</h2>
               </div>
-              <button
-                onClick={fetchIncidents}
-                className="inline-flex items-center justify-center rounded-full border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
-              >
-                Refresh
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  onClick={() => fetchIncidents(page)}
+                  className="inline-flex items-center justify-center rounded-full border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+                >
+                  Refresh
+                </button>
+                <button
+                  type="button"
+                  onClick={handleImportClick}
+                  disabled={importing}
+                  className="inline-flex items-center justify-center rounded-full border border-blue-200 px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-50 disabled:opacity-60"
+                >
+                  {importing ? "Importing..." : "Import CSV"}
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".csv,text/csv"
+                  className="hidden"
+                  onChange={handleImportChange}
+                />
+              </div>
             </div>
 
             <div className="mt-4 overflow-x-auto">
@@ -368,6 +436,34 @@ export default function IncidentsPage() {
                   ))}
                 </tbody>
               </table>
+            </div>
+            <div className="mt-4 flex flex-col gap-3 border-t border-zinc-100 pt-4 text-sm text-zinc-600 sm:flex-row sm:items-center sm:justify-between">
+              <p>
+                {total === 0
+                  ? "No incidents to display"
+                  : `Showing ${pageStart}-${pageEnd} of ${total} incidents`}
+              </p>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handlePageChange(page - 1)}
+                  disabled={page <= 1 || fetching}
+                  className="rounded-full border border-zinc-200 px-3 py-1 text-xs font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50"
+                >
+                  Prev
+                </button>
+                <span className="text-xs font-medium">
+                  Page {Math.min(page, totalPages)} of {totalPages}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handlePageChange(page + 1)}
+                  disabled={page >= totalPages || fetching}
+                  className="rounded-full border border-zinc-200 px-3 py-1 text-xs font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </div>
         </section>

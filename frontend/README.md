@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, configure your API endpoint by copying `.env.example` to `.env.local` and updating `NEXT_PUBLIC_API_BASE` if needed. Then run the development server:
 
 ```bash
 npm run dev

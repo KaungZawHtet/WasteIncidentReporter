@@ -34,18 +34,8 @@ public class IncidentsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> List([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
-        var items = await _incidentService.ListAllIncident(skip, take);
-        return Ok(
-            items.Select(i => new
-            {
-                i.Id,
-                i.Description,
-                i.Timestamp,
-                i.Location,
-                i.Category,
-                i.Status,
-            })
-        );
+        var result = await _incidentService.ListAllIncident(skip, take);
+        return Ok(result);
     }
 
     [HttpGet("{id:guid}")]

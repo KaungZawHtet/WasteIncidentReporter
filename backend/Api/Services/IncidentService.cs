@@ -26,7 +26,7 @@ public sealed class IncidentService : IIncidentService
         _classifier = classifier;
     }
 
-    public Task<List<Incident>> ListAllIncident(int skip = 0, int take = 50)
+    public async Task<PagedResult<Incident>> ListAllIncident(int skip = 0, int take = 50)
     {
         if (take <= 0)
         {
@@ -36,12 +36,15 @@ public sealed class IncidentService : IIncidentService
         take = Math.Min(take, 200);
         skip = Math.Max(0, skip);
 
-        return _db
-            .Incidents.AsNoTracking()
+        var query = _db.Incidents.AsNoTracking();
+        var total = await query.CountAsync();
+        var items = await query
             .OrderByDescending(i => i.Timestamp)
             .Skip(skip)
             .Take(take)
             .ToListAsync();
+
+        return new PagedResult<Incident>(items, total);
     }
 
     public Task<Incident?> GetIncidentByIdAsync(Guid id)

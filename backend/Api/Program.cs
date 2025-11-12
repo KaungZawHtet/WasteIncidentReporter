@@ -1,3 +1,4 @@
+using Api.Abstractions;
 using Api.Constants;
 using Api.Data;
 using Api.Services;
@@ -43,6 +44,7 @@ try
     });
 
     builder.Services.AddSingleton<TextEmbeddingService>();
+    builder.Services.AddScoped<IIncidentService, IncidentService>();
     builder.Services.AddScoped<SimilarityService>();
     builder.Services.AddScoped<TrendService>();
 

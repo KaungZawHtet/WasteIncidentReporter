@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 
@@ -26,7 +30,7 @@ public class TextEmbeddingService
         // Minimal “fit-once” pipeline: Text -> TF-IDF
         var pipeline = _ml.Transforms.Text.FeaturizeText("Features", nameof(Input.Text));
         // Fit on an empty tiny dataset so the model is ready; we can refit later if needed
-        var empty = _ml.Data.LoadFromEnumerable(new List<Input>());
+        var empty = _ml.Data.LoadFromEnumerable(new[] { new Input { Text = "bootstrap" } });
         _model = pipeline.Fit(empty);
     }
 

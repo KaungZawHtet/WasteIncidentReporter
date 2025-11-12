@@ -22,11 +22,18 @@ try
             name: AppConfig.CorsPolicy,
             policy =>
             {
-                policy
-                    .WithOrigins(allowedOrigins)
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
+                if (allowedOrigins.Length == 0)
+                {
+                    policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                }
+                else
+                {
+                    policy
+                        .WithOrigins(allowedOrigins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                }
             }
         );
     });
@@ -83,6 +90,8 @@ try
     app.UseSerilogRequestLogging();
 
     app.UseHttpsRedirection();
+
+    app.UseCors(AppConfig.CorsPolicy);
 
     app.UseAuthorization();
 

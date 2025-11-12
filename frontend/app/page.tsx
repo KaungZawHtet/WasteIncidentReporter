@@ -1,9 +1,11 @@
 'use client';
 
+import { StatCard, StatusBadge } from "@/components/incident";
+import { formatTimestamp, toInputDate } from "@/utils/incident";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") ?? "https://localhost:7049";
+  process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "");
 
 type Incident = {
   id: string;
@@ -370,66 +372,6 @@ export default function IncidentsPage() {
           </div>
         </section>
       </main>
-    </div>
-  );
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const palette: Record<string, string> = {
-    open: "bg-amber-100 text-amber-800",
-    in_progress: "bg-blue-100 text-blue-800",
-    resolved: "bg-emerald-100 text-emerald-800",
-    closed: "bg-zinc-200 text-zinc-800",
-  };
-  return (
-    <span
-      className={`inline-flex rounded-full px-3 py-1 text-xs font-medium capitalize ${
-        palette[status] ?? "bg-zinc-100 text-zinc-700"
-      }`}
-    >
-      {status.replace("_", " ")}
-    </span>
-  );
-}
-
-function formatTimestamp(value: string) {
-  try {
-    return new Intl.DateTimeFormat(undefined, {
-      dateStyle: "medium",
-      timeStyle: "short",
-    }).format(new Date(value));
-  } catch {
-    return value;
-  }
-}
-
-function toInputDate(value: string) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return new Date().toISOString().slice(0, 16);
-  }
-  const iso = date.toISOString();
-  return iso.slice(0, 16);
-}
-
-function StatCard({
-  title,
-  value,
-  accent,
-}: {
-  title: string;
-  value: number;
-  accent: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
-      <p className="text-xs uppercase tracking-wide text-zinc-500">{title}</p>
-      <div className="mt-2 flex items-end justify-between">
-        <span className="text-3xl font-semibold">{value}</span>
-        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${accent}`}>
-          {title === "Total incidents" ? "All time" : "Live"}
-        </span>
-      </div>
     </div>
   );
 }

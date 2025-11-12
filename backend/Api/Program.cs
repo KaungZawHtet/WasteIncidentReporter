@@ -1,3 +1,7 @@
+using Api.Constants;
+using Api.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();
@@ -6,6 +10,36 @@ try
 {
     Log.Information("Starting The App API");
     var builder = WebApplication.CreateBuilder(args);
+    var allowedOrigins =
+        builder.Configuration.GetSection(AppConfig.AllowedOrigins).Get<string[]>()
+        ?? Array.Empty<string>();
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(
+            name: AppConfig.CorsPolicy,
+            policy =>
+            {
+                policy
+                    .WithOrigins(allowedOrigins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            }
+        );
+    });
+
+    builder.Services.AddDbContext<AppDbContext>(options =>
+    {
+        var cs = builder.Configuration.GetConnectionString(AppConfig.Postgres);
+        options.UseNpgsql(cs);
+
+        if (builder.Environment.IsDevelopment())
+        {
+            options.EnableSensitiveDataLogging();
+            options.EnableDetailedErrors();
+        }
+    });
 
     builder.Logging.ClearProviders();
 
@@ -26,6 +60,7 @@ try
     Directory.CreateDirectory(logsPath);
 
     builder.Services.AddControllers();
+
     // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
     builder.Services.AddOpenApi();
 
@@ -47,9 +82,9 @@ try
 
     app.Run();
 }
-catch (Exception ex)
+catch (System.Exception)
 {
-    Log.Fatal(ex, "Host terminated unexpectedly");
+    Log.Fatal("The App API terminated unexpectedly");
 }
 finally
 {

@@ -1,0 +1,18 @@
+[16:37:39 INF] Starting Waste AI API
+[16:49:40 INF] Now listening on: https://localhost:7049
+[16:49:40 INF] Now listening on: http://localhost:5051
+[16:49:40 INF] Application started. Press Ctrl+C to shut down.
+[16:49:40 INF] Hosting environment: Development
+[16:49:40 INF] Content root path: /Users/kaungzawhtet/VSCodeProjects/CSharp/updated/WasteIncidentReporter/backend/Api
+[16:49:43 INF] Request starting HTTP/2 GET https://localhost:7049/ - null null
+[16:49:43 INF] HTTP GET / responded 404 in 0.8913 ms
+[16:49:43 INF] Request finished HTTP/2 GET https://localhost:7049/ - 404 0 null 19.349ms
+[16:49:43 INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7049/, Response status code: 404
+[16:49:45 INF] Request starting HTTP/2 GET https://localhost:7049/WeatherForecast - null null
+[16:49:45 INF] Executing endpoint 'Api.Controllers.WeatherForecastController.Get (Api)'
+[16:49:45 INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[Api.WeatherForecast] Get() on controller Api.Controllers.WeatherForecastController (Api).
+[16:49:45 INF] Executing ObjectResult, writing value of type 'Api.WeatherForecast[]'.
+[16:49:45 INF] Executed action Api.Controllers.WeatherForecastController.Get (Api) in 22.6814ms
+[16:49:45 INF] Executed endpoint 'Api.Controllers.WeatherForecastController.Get (Api)'
+[16:49:45 INF] HTTP GET /WeatherForecast responded 200 in 47.9128 ms
+[16:49:45 INF] Request finished HTTP/2 GET https://localhost:7049/WeatherForecast - 200 null application/json; charset=utf-8 50.9104ms

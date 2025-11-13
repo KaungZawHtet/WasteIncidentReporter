@@ -55,7 +55,7 @@ public sealed class TrendService
 
     public async Task<string> AdminSummaryAsync()
     {
-        var weekStart = DateTimeOffset.UtcNow.Date.AddDays(-7);
+        var weekStart = new DateTimeOffset(DateTime.UtcNow.Date.AddDays(-7), TimeSpan.Zero);
         var weekCount = await _db.Incidents.CountAsync(i => i.Timestamp >= weekStart);
         var top = await TopCategoriesAsync(3) as IEnumerable<dynamic>;
         var topStr = string.Join(", ", top!.Select(t => $"{t.category} ({t.count})"));

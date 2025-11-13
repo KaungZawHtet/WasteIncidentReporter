@@ -1,5 +1,7 @@
 'use client';
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { StatCard, StatusBadge } from "@/components/incident";
 import { formatTimestamp, toInputDate } from "@/utils/incident";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -36,6 +38,7 @@ const defaultFormState = (): IncidentFormState => ({
 });
 
 export default function IncidentsPage() {
+  const pathname = usePathname();
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [form, setForm] = useState<IncidentFormState>(defaultFormState());
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -208,7 +211,7 @@ export default function IncidentsPage() {
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
       <header className="border-b bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-wide text-zinc-500">
               Waste Incident Reporter
@@ -216,24 +219,28 @@ export default function IncidentsPage() {
             <h1 className="text-xl font-semibold">Operations Console</h1>
           </div>
           <nav className="flex gap-4 text-sm font-medium text-zinc-600">
-            <a className="text-zinc-900" href="#">
-              Incidents
-            </a>
-            <a className="hover:text-zinc-900" href="#">
-              Insights
-            </a>
-            <a className="hover:text-zinc-900" href="#">
-              Trends
-            </a>
-            <a className="hover:text-zinc-900" href="#">
-              Settings
-            </a>
+            {[
+              { label: "Incidents", href: "/" },
+              { label: "Insights", href: "/insights" },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={
+                  pathname === item.href
+                    ? "text-zinc-900"
+                    : "hover:text-zinc-900"
+                }
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
         </div>
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-        <section className="grid gap-4 sm:grid-cols-3">
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <StatCard title="Total incidents" value={stats.total} accent="bg-blue-100 text-blue-800" />
           <StatCard title="Open" value={stats.open} accent="bg-amber-100 text-amber-800" />
           <StatCard title="Resolved" value={stats.resolved} accent="bg-emerald-100 text-emerald-800" />
@@ -251,9 +258,9 @@ export default function IncidentsPage() {
           </div>
         )}
 
-        <section className="mt-8 grid gap-6 lg:grid-cols-[360px,1fr]">
-          <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-center justify-between">
+        <section className="mt-8 flex flex-col gap-6 lg:flex-row">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm lg:w-[360px]">
+            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs uppercase tracking-wide text-zinc-500">
                   Incident form
@@ -343,7 +350,7 @@ export default function IncidentsPage() {
             </form>
           </div>
 
-          <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm lg:flex-1">
             <div className="flex flex-col gap-3 border-b border-zinc-100 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs uppercase tracking-wide text-zinc-500">Live feed</p>

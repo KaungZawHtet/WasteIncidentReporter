@@ -37,7 +37,12 @@ public sealed class AnomalyService
         for (var i = 0; i < ordered.Count; i++)
         {
             var (day, count) = ordered[i];
-            var history = ordered.Take(i).Reverse().Take(window).Select(x => (double)x.count).ToList();
+            var history = ordered
+                .Take(i)
+                .Reverse()
+                .Take(window)
+                .Select(x => (double)x.count)
+                .ToList();
 
             if (history.Count < window)
             {

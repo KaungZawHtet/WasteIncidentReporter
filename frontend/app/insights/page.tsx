@@ -1,7 +1,5 @@
 'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { BarChart, LineChart } from "@/components/insight";
 
@@ -18,7 +16,6 @@ const formatDay = (day: string) =>
 
 
 export default function InsightsPage() {
-  const pathname = usePathname();
   const [trend, setTrend] = useState<{ label: string; value: number }[]>([]);
   const [trendMeta, setTrendMeta] = useState<{ lastDayZScore?: number; spike?: boolean }>({});
   const [trendHighlight, setTrendHighlight] = useState<{ label: string; value: number } | null>(null);
@@ -84,35 +81,7 @@ export default function InsightsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900">
-      <header className="border-b bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div>
-            <p className="text-xs uppercase tracking-wide text-zinc-500">Waste Incident Reporter</p>
-            <h1 className="text-xl font-semibold">Insights & Trends</h1>
-          </div>
-          <nav className="flex gap-4 text-sm font-medium text-zinc-600">
-            {[
-              { label: "Incidents", href: "/" },
-              { label: "Insights", href: "/insights" },
-            ].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={
-                  pathname === item.href
-                    ? "text-zinc-900"
-                    : "hover:text-zinc-900"
-                }
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <>
         {loading && (
           <div className="mb-6 rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600">
             Loading insights...
@@ -231,7 +200,6 @@ export default function InsightsPage() {
             </section>
           </div>
         )}
-      </main>
-    </div>
+    </>
   );
 }

@@ -28,11 +28,7 @@ try
                 }
                 else
                 {
-                    policy
-                        .WithOrigins(allowedOrigins)
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
+                    policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
                 }
             }
         );

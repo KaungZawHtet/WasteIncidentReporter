@@ -23,7 +23,7 @@ public sealed class TrendService
         // Optional spike flag: compare last day vs mean of previous 7
         if (data.Count >= 8)
         {
-            var last = data[^1].count;
+            var last = data.Last().count;
             var prev7 = data.Skip(Math.Max(0, data.Count - 8))
                 .Take(7)
                 .Select(x => x.count)

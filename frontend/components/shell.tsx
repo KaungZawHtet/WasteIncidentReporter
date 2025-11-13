@@ -1,13 +1,11 @@
 'use client';
 
+import { navigation } from "@/constants/config";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
-const navigation = [
-  { label: "Incidents", href: "/" },
-  { label: "Insights", href: "/insights" },
-];
+
 
 export function Shell({ children }: { children: ReactNode }) {
   const pathname = usePathname();

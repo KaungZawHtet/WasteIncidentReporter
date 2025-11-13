@@ -29,3 +29,5 @@ export type AnomalyRecord = {
   zScore: number;
   isAnomaly: boolean;
 };
+
+export type SimilarIncident = Incident & { similarity: number };

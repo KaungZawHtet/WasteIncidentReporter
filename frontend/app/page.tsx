@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { StatCard, StatusBadge } from '@/components/incident';
+import { Modal } from '@/components/modal';
 import { API_ENDPOINTS } from '@/constants/api';
-import { Incident, IncidentFormState } from '@/types/models';
+import { Incident, IncidentFormState, SimilarIncident } from '@/types/models';
 import { formatTimestamp, toInputDate } from '@/utils/incident';
 import { PAGE_SIZE, STATUS_OPTIONS } from '@/constants/config';
 
@@ -24,6 +25,11 @@ export default function IncidentsPage() {
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [importing, setImporting] = useState(false);
+    const [similarTarget, setSimilarTarget] = useState<Incident | null>(null);
+    const [similarIncidents, setSimilarIncidents] =
+        useState<SimilarIncident[] | null>(null);
+    const [similarLoading, setSimilarLoading] = useState(false);
+    const [similarError, setSimilarError] = useState<string | null>(null);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -60,6 +66,10 @@ export default function IncidentsPage() {
     const resetForm = () => {
         setForm(defaultFormState());
         setEditingId(null);
+        setSimilarTarget(null);
+        setSimilarIncidents(null);
+        setSimilarError(null);
+        setSimilarLoading(false);
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -115,6 +125,59 @@ export default function IncidentsPage() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    const handleSimilar = (incident: Incident) => {
+        setSimilarTarget(incident);
+    };
+
+    const closeSimilarModal = () => {
+        setSimilarTarget(null);
+        setSimilarIncidents(null);
+        setSimilarError(null);
+        setSimilarLoading(false);
+    };
+
+    useEffect(() => {
+        if (!similarTarget) {
+            setSimilarIncidents(null);
+            setSimilarError(null);
+            setSimilarLoading(false);
+            return;
+        }
+
+        const controller = new AbortController();
+        (async () => {
+            try {
+                setSimilarLoading(true);
+                setSimilarError(null);
+                const res = await fetch(
+                    `${API_ENDPOINTS.INCIDENTS}/${similarTarget.id}/similar?take=3`,
+                    { cache: 'no-store', signal: controller.signal },
+                );
+                if (!res.ok) {
+                    throw new Error('Failed to load similar incidents');
+                }
+                const data = (await res.json()) as SimilarIncident[];
+                setSimilarIncidents(data);
+            } catch (err) {
+                if (
+                    err instanceof DOMException &&
+                    err.name === 'AbortError'
+                ) {
+                    return;
+                }
+                setSimilarError(
+                    err instanceof Error
+                        ? err.message
+                        : 'Failed to load similar incidents',
+                );
+            } finally {
+                setSimilarLoading(false);
+            }
+        })();
+
+        return () => controller.abort();
+    }, [similarTarget]);
+
     const handleDelete = async (incident: Incident) => {
         const confirmed = window.confirm(
             `Delete incident "${incident.description.slice(0, 40)}"?`,
@@ -135,6 +198,9 @@ export default function IncidentsPage() {
             await fetchIncidents(page);
             if (editingId === incident.id) {
                 resetForm();
+            }
+            if (similarTarget?.id === incident.id) {
+                closeSimilarModal();
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Delete failed');
@@ -459,6 +525,14 @@ export default function IncidentsPage() {
                                                     Edit
                                                 </button>
                                                 <button
+                                                    className="text-sm font-medium text-zinc-500 hover:text-zinc-800"
+                                                    onClick={() =>
+                                                        handleSimilar(incident)
+                                                    }
+                                                >
+                                                    Similar
+                                                </button>
+                                                <button
                                                     className="text-sm font-medium text-red-600 hover:text-red-800"
                                                     onClick={() =>
                                                         handleDelete(incident)
@@ -504,6 +578,56 @@ export default function IncidentsPage() {
                     </div>
                 </div>
             </section>
+            <Modal
+                title={
+                    similarTarget
+                        ? `Similar to “${similarTarget.description.slice(0, 40)}”`
+                        : 'Similar incidents'
+                }
+                open={Boolean(similarTarget)}
+                onClose={closeSimilarModal}
+            >
+                {!similarTarget && (
+                    <p className="text-sm text-zinc-500">
+                        Choose an incident and press “Similar” to inspect duplicates.
+                    </p>
+                )}
+                {similarTarget && similarLoading && (
+                    <p className="text-sm text-zinc-500">Checking for duplicates…</p>
+                )}
+                {similarTarget && similarError && (
+                    <p className="text-sm text-red-600">{similarError}</p>
+                )}
+                {similarTarget &&
+                    !similarLoading &&
+                    !similarError &&
+                    (similarIncidents?.length ?? 0) === 0 && (
+                        <p className="text-sm text-zinc-500">No close matches found.</p>
+                    )}
+                {similarTarget &&
+                    !similarLoading &&
+                    !similarError &&
+                    (similarIncidents?.length ?? 0) > 0 && (
+                        <ul className="space-y-3 text-sm text-zinc-700">
+                            {similarIncidents!.map((item) => (
+                                <li
+                                    key={item.id}
+                                    className="rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3"
+                                >
+                                    <p className="font-medium text-zinc-900">
+                                        {item.description}
+                                    </p>
+                                    <p className="text-xs text-zinc-500">
+                                        {item.location || '—'} · {formatTimestamp(item.timestamp)}
+                                    </p>
+                                    <p className="text-xs font-semibold text-blue-600">
+                                        {(item.similarity * 100).toFixed(1)}% match
+                                    </p>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+            </Modal>
         </>
     );
 }

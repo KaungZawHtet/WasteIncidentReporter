@@ -33,9 +33,7 @@ public sealed class SimilarityService
     )
     {
         var matches = await FindTopMatchesAsync(vector, nearLocation, null, 1);
-        return matches.Count == 0
-            ? (null, 0f)
-            : (matches[0].incident, matches[0].score);
+        return matches.Count == 0 ? (null, 0f) : (matches[0].incident, matches[0].score);
     }
 
     public async Task<IReadOnlyList<(Incident incident, float score)>> FindTopMatchesAsync(

@@ -1,4 +1,3 @@
-using System.Linq;
 using Api.Services;
 
 namespace Test;

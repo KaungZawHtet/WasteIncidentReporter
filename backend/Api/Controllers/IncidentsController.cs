@@ -1,10 +1,7 @@
-using System.IO;
 using Api.Abstractions;
 using Api.Constants;
 using Api.DTOs;
-using Api.Entities;
 using Api.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -16,19 +13,19 @@ public class IncidentsController : ControllerBase
     private readonly IIncidentService _incidentService;
     private readonly TextEmbeddingService _embeddingService;
     private readonly SimilarityService _similarityService;
-    private readonly WasteClassificationService _classifier;
+    private readonly WasteClassificationService _classifierService;
 
     public IncidentsController(
-        IIncidentService incidents,
-        TextEmbeddingService embedding,
-        SimilarityService similarity,
-        WasteClassificationService classifier
+        IIncidentService incidentService,
+        TextEmbeddingService embeddingService,
+        SimilarityService similarityService,
+        WasteClassificationService classifierService
     )
     {
-        _incidentService = incidents;
-        _embeddingService = embedding;
-        _similarityService = similarity;
-        _classifier = classifier;
+        _incidentService = incidentService;
+        _embeddingService = embeddingService;
+        _similarityService = similarityService;
+        _classifierService = classifierService;
     }
 
     [HttpGet]
@@ -49,7 +46,7 @@ public class IncidentsController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateIncidentDto dto)
     {
         var vector = _embeddingService.Transform(dto.Description);
-        var classification = _classifier.Predict(dto.Description);
+        var classification = _classifierService.Predict(dto.Description);
         var (match, score) = await _similarityService.FindBestMatchAsync(vector, dto.Location);
         var created = await _incidentService.CreateIncidentAsync(dto, vector);
 
@@ -115,7 +112,7 @@ public class IncidentsController : ControllerBase
             return NotFound();
         }
 
-        var result = _classifier.Predict(incident.Description);
+        var result = _classifierService.Predict(incident.Description);
         return Ok(result);
     }
 

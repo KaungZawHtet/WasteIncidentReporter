@@ -1,6 +1,6 @@
 # Waste Incident Reporter
 
-Full-stack sample that helps city operators log waste incidents, detect duplicates, surface AI-generated insights, and monitor trends. The backend is an ASP.NET Core 9 API with ML.NET services for embeddings/classification; the frontend is a Next.js dashboard hosted separately (e.g., AWS Amplify).
+Full-stack prototype that helps city operators log waste incidents, detect duplicates, surface AI-generated insights, and monitor trends.
 
 ## Key Features
 - **Incident Management** – CRUD operations with CSV import/export.
@@ -14,16 +14,11 @@ Full-stack sample that helps city operators log waste incidents, detect duplicat
 | Backend | ASP.NET Core 9, Entity Framework Core, PostgreSQL, Serilog |
 | AI Services | ML.NET (TF‑IDF embeddings, multiclass classification) |
 | Frontend | Next.js 14, Tailwind CSS, Recharts |
-| Tooling | CSV Helper, GitHub Actions → Elastic Beanstalk deploy |
-
-## Running Locally
-See [HOW_TO_RUN.md](HOW_TO_RUN.md) for detailed steps. In short:
-1. `cd backend/Api && dotnet restore && dotnet ef database update && dotnet run`
-2. `cd frontend && npm install && npm run dev`
-3. Browse `http://localhost:3000` and set `NEXT_PUBLIC_API_BASE` to the API URL.
+| DevOps | AWS Cloud (Amplify,AWS Certification Manager, Elastic BeamStack, EC2, LoadBalancer and so on... ), GitHub Actions → Elastic Beanstalk deploy, NameCheap Domain Service |
 
 
 ## Docs
 - [AI_APPROACH.md](AI_APPROACH.md) – describes ML/AI techniques used.
 - [ARCHITECTURE.md](ARCHITECTURE.md) – high-level system diagram and flows.
 - [HOW_TO_RUN.md](HOW_TO_RUN.md) – quickstart guide.
+- [BUG_LOG.md](BUG_LOG.md) – how we can manage bug on notable bugs

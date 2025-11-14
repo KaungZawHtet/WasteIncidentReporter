@@ -3,6 +3,8 @@
 - Node.js 18+ with npm or pnpm
 - PostgreSQL database (connection string configured in `backend/Api/appsettings.*.json`)
 
+You can go to staging url : https://wastereport.kaungzawhtet.site/
+
 ## Backend API
 1. `cd backend/Api`
 2. Restore dependencies: `dotnet restore`
@@ -26,4 +28,6 @@
 - Backend deploys via `.github/workflows/deploy-api.yml` to Elastic Beanstalk (`waste-incident-staging`).
 - Artifacts are zipped (`api-<sha>.zip`) and uploaded to `elasticbeanstalk-ap-southeast-1-932133996420`.
 - Frontend can be hosted on AWS Amplify; ensure `NEXT_PUBLIC_API_BASE` points to an HTTPS API endpoint to avoid mixed-content issues.
+
+
 

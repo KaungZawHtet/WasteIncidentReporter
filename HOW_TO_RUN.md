@@ -1,6 +1,6 @@
 ## Requirements
 - .NET 9 SDK
-- Node.js 18+ with npm or pnpm
+- Node.js 20+ with npm or pnpm
 - PostgreSQL database (connection string configured in `backend/Api/appsettings.*.json`)
 
 You can go to staging url : https://wastereport.kaungzawhtet.site/
@@ -8,7 +8,7 @@ You can go to staging url : https://wastereport.kaungzawhtet.site/
 ## Backend API
 1. `cd backend/Api`
 2. Restore dependencies: `dotnet restore`
-3. create empty database named waste_incident
+3. create empty database named waste_incident on postgres
 3. Apply EF Core migrations (local dev DB): `dotnet ef database update`
 4. Run the service: `dotnet run`
 5. API defaults to `https://localhost:7049` (see `Properties/launchSettings.json` for ports)

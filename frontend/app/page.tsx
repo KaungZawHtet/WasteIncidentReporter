@@ -5,12 +5,12 @@ import { StatCard, StatusBadge } from '@/components/incident';
 import { Modal } from '@/components/modal';
 import { API_ENDPOINTS } from '@/constants/api';
 import { Incident, IncidentFormState, SimilarIncident } from '@/types/models';
-import { formatTimestamp, toInputDate } from '@/utils/incident';
+import { formatTimestamp, nowInputDate, toInputDate } from '@/utils/incident';
 import { PAGE_SIZE, STATUS_OPTIONS } from '@/constants/config';
 
 const defaultFormState = (): IncidentFormState => ({
     description: '',
-    timestamp: new Date().toISOString().slice(0, 16),
+    timestamp: nowInputDate(),
     location: '',
     category: '',
     status: 'open',

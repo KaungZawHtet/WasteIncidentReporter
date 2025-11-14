@@ -9,11 +9,22 @@ export function formatTimestamp(value: string) {
     }
 }
 
+const INPUT_SLICE_LENGTH = 16;
+
+const toLocalInputString = (date: Date) => {
+    const offsetMinutes = date.getTimezoneOffset();
+    const local = new Date(date.getTime() - offsetMinutes * 60 * 1000);
+    return local.toISOString().slice(0, INPUT_SLICE_LENGTH);
+};
+
 export function toInputDate(value: string) {
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {
-        return new Date().toISOString().slice(0, 16);
+        return toLocalInputString(new Date());
     }
-    const iso = date.toISOString();
-    return iso.slice(0, 16);
+    return toLocalInputString(date);
+}
+
+export function nowInputDate() {
+    return toLocalInputString(new Date());
 }

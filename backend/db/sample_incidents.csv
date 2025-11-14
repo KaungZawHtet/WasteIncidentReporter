@@ -1,101 +1,61 @@
 description,timestamp,location,category,status
-"Plastic bottles scattered across beach",2025-10-24T08:18:41Z,Industrial Park,hazardous,in_progress
-"Oil drums leaking in industrial yard",2025-10-06T22:22:41Z,Pier 14,illegal_dumping,open
-"Oil drums leaking in industrial yard",2025-11-07T11:18:41Z,Transit Hub,bulk,in_progress
-"E-waste pile of monitors and CPUs beside office",2025-10-22T09:01:41Z,Industrial Park,e-waste,in_progress
-"Furniture abandoned near housing complex",2025-11-04T06:11:41Z,Harbor,e-waste,resolved
-"Furniture abandoned near housing complex",2025-10-23T21:23:41Z,Downtown,e-waste,in_progress
-"Yard waste clogging storm drain",2025-10-22T13:11:41Z,Pier 14,hazardous,closed
-"E-waste pile of monitors and CPUs beside office",2025-10-02T07:14:41Z,Industrial Park,illegal_dumping,closed
-"Chemical spill reported along riverbank",2025-11-06T01:38:41Z,Downtown,recyclables,open
-"Oil drums leaking in industrial yard",2025-10-09T11:49:41Z,Harbor,e-waste,open
-"Overflowing recycling bins near metro station",2025-10-08T05:45:41Z,Old Town,organic,in_progress
-"Overflowing recycling bins near metro station",2025-11-01T08:18:41Z,Riverside,e-waste,resolved
-"Chemical spill reported along riverbank",2025-11-02T08:58:41Z,Warehouse District,illegal_dumping,closed
-"Plastic bottles scattered across beach",2025-10-02T00:53:41Z,Industrial Park,bulk,closed
-"Chemical spill reported along riverbank",2025-10-05T23:13:41Z,Midtown,hazardous,in_progress
-"E-waste pile of monitors and CPUs beside office",2025-10-25T01:05:41Z,Pier 14,organic,closed
-"Construction debris blocking bike lane",2025-10-13T04:13:41Z,Industrial Park,illegal_dumping,open
-"Plastic bottles scattered across beach",2025-10-31T05:06:41Z,Downtown,organic,in_progress
-"Oil drums leaking in industrial yard",2025-10-23T08:27:41Z,Old Town,e-waste,resolved
-"Overflowing recycling bins near metro station",2025-11-01T22:17:41Z,Warehouse District,illegal_dumping,closed
-"E-waste pile of monitors and CPUs beside office",2025-10-27T03:25:41Z,Midtown,recyclables,resolved
-"E-waste pile of monitors and CPUs beside office",2025-10-12T18:49:41Z,Old Town,organic,closed
-"Rotting food waste attracting pests in alley",2025-10-04T10:32:41Z,Harbor,bulk,resolved
-"Yard waste clogging storm drain",2025-11-11T06:56:41Z,Pier 14,hazardous,resolved
-"Plastic bottles scattered across beach",2025-10-26T05:32:41Z,Industrial Park,organic,closed
-"Plastic bottles scattered across beach",2025-11-11T17:44:41Z,Campus,hazardous,closed
-"Overflowing recycling bins near metro station",2025-10-20T02:28:41Z,Warehouse District,illegal_dumping,resolved
-"Chemical spill reported along riverbank",2025-10-11T17:48:41Z,Midtown,illegal_dumping,closed
-"Construction debris blocking bike lane",2025-11-13T03:32:41Z,Old Town,recyclables,open
-"Overflowing recycling bins near metro station",2025-10-31T13:18:41Z,Pier 14,organic,in_progress
-"E-waste pile of monitors and CPUs beside office",2025-10-31T11:05:41Z,Midtown,illegal_dumping,closed
-"Plastic bottles scattered across beach",2025-10-28T13:39:41Z,Transit Hub,organic,in_progress
-"Rotting food waste attracting pests in alley",2025-09-29T23:57:41Z,Harbor,bulk,open
-"Construction debris blocking bike lane",2025-10-02T09:25:41Z,Pier 14,illegal_dumping,resolved
-"Oil drums leaking in industrial yard",2025-10-11T00:01:41Z,Old Town,hazardous,resolved
-"Chemical spill reported along riverbank",2025-10-28T06:14:41Z,Campus,illegal_dumping,closed
-"Chemical spill reported along riverbank",2025-10-25T13:51:41Z,Warehouse District,organic,in_progress
-"Oil drums leaking in industrial yard",2025-10-16T10:42:41Z,Industrial Park,e-waste,closed
-"Furniture abandoned near housing complex",2025-11-10T01:10:41Z,Riverside,e-waste,open
-"Yard waste clogging storm drain",2025-10-06T06:56:41Z,Harbor,organic,open
-"Rotting food waste attracting pests in alley",2025-11-04T17:40:41Z,Downtown,bulk,resolved
-"Chemical spill reported along riverbank",2025-10-25T04:16:41Z,Transit Hub,recyclables,closed
-"Furniture abandoned near housing complex",2025-09-30T21:27:41Z,Riverside,bulk,resolved
-"Oil drums leaking in industrial yard",2025-10-09T10:09:41Z,Riverside,hazardous,open
-"Rotting food waste attracting pests in alley",2025-10-30T01:23:41Z,Warehouse District,recyclables,in_progress
-"Construction debris blocking bike lane",2025-11-03T01:50:41Z,Pier 14,recyclables,open
-"Furniture abandoned near housing complex",2025-10-07T00:15:41Z,Harbor,recyclables,closed
-"E-waste pile of monitors and CPUs beside office",2025-10-09T08:01:41Z,Transit Hub,bulk,in_progress
-"Construction debris blocking bike lane",2025-10-19T22:03:41Z,Old Town,hazardous,resolved
-"Chemical spill reported along riverbank",2025-10-10T19:13:41Z,Campus,illegal_dumping,open
-"Illegal dumping of mixed trash behind warehouse",2025-10-13T09:04:41Z,Riverside,bulk,closed
-"Chemical spill reported along riverbank",2025-11-05T23:02:41Z,Industrial Park,e-waste,resolved
-"Overflowing recycling bins near metro station",2025-10-15T06:43:41Z,Transit Hub,e-waste,open
-"Overflowing recycling bins near metro station",2025-10-18T01:14:41Z,Midtown,bulk,resolved
-"Oil drums leaking in industrial yard",2025-10-16T23:37:41Z,Harbor,recyclables,resolved
-"Construction debris blocking bike lane",2025-10-09T15:49:41Z,Warehouse District,illegal_dumping,resolved
-"Rotting food waste attracting pests in alley",2025-10-01T08:58:41Z,Transit Hub,hazardous,in_progress
-"Rotting food waste attracting pests in alley",2025-11-12T17:07:41Z,Old Town,e-waste,in_progress
-"Overflowing recycling bins near metro station",2025-10-10T12:32:41Z,Riverside,hazardous,resolved
-"Oil drums leaking in industrial yard",2025-10-09T14:12:41Z,Downtown,bulk,open
-"Chemical spill reported along riverbank",2025-10-11T01:03:41Z,Midtown,recyclables,resolved
-"Oil drums leaking in industrial yard",2025-10-10T14:54:41Z,Industrial Park,recyclables,open
-"Yard waste clogging storm drain",2025-10-31T09:05:41Z,Harbor,hazardous,in_progress
-"Yard waste clogging storm drain",2025-10-20T09:14:41Z,Transit Hub,recyclables,resolved
-"Plastic bottles scattered across beach",2025-10-31T01:20:41Z,Campus,hazardous,open
-"Chemical spill reported along riverbank",2025-10-26T15:18:41Z,Industrial Park,e-waste,in_progress
-"Chemical spill reported along riverbank",2025-10-10T17:22:41Z,Pier 14,illegal_dumping,open
-"E-waste pile of monitors and CPUs beside office",2025-10-14T03:39:41Z,Old Town,e-waste,open
-"Plastic bottles scattered across beach",2025-10-14T04:26:41Z,Warehouse District,e-waste,in_progress
-"Overflowing recycling bins near metro station",2025-10-05T16:07:41Z,Old Town,recyclables,resolved
-"Rotting food waste attracting pests in alley",2025-10-10T21:48:41Z,Industrial Park,organic,resolved
-"Rotting food waste attracting pests in alley",2025-09-29T14:39:41Z,Riverside,illegal_dumping,resolved
-"Oil drums leaking in industrial yard",2025-10-06T01:28:41Z,Industrial Park,illegal_dumping,resolved
-"Yard waste clogging storm drain",2025-11-01T04:18:41Z,Downtown,recyclables,resolved
-"Illegal dumping of mixed trash behind warehouse",2025-10-13T00:44:41Z,Old Town,recyclables,resolved
-"Furniture abandoned near housing complex",2025-10-19T08:21:41Z,Industrial Park,recyclables,open
-"E-waste pile of monitors and CPUs beside office",2025-09-30T01:19:41Z,Warehouse District,bulk,resolved
-"Oil drums leaking in industrial yard",2025-10-03T16:06:41Z,Harbor,illegal_dumping,closed
-"Construction debris blocking bike lane",2025-10-04T19:00:41Z,Campus,e-waste,closed
-"Construction debris blocking bike lane",2025-11-03T16:22:41Z,Warehouse District,recyclables,resolved
-"Overflowing recycling bins near metro station",2025-11-01T03:10:41Z,Riverside,organic,resolved
-"Rotting food waste attracting pests in alley",2025-11-06T23:23:41Z,Transit Hub,bulk,in_progress
-"Yard waste clogging storm drain",2025-10-12T10:48:41Z,Pier 14,recyclables,resolved
-"Overflowing recycling bins near metro station",2025-10-03T08:13:41Z,Midtown,e-waste,closed
-"E-waste pile of monitors and CPUs beside office",2025-10-26T06:38:41Z,Transit Hub,illegal_dumping,open
-"E-waste pile of monitors and CPUs beside office",2025-10-17T08:55:41Z,Harbor,bulk,resolved
-"Construction debris blocking bike lane",2025-10-28T19:37:41Z,Transit Hub,recyclables,open
-"Chemical spill reported along riverbank",2025-10-02T14:11:41Z,Old Town,hazardous,closed
-"Plastic bottles scattered across beach",2025-11-10T17:43:41Z,Downtown,recyclables,open
-"Illegal dumping of mixed trash behind warehouse",2025-10-19T02:19:41Z,Downtown,e-waste,resolved
-"Rotting food waste attracting pests in alley",2025-10-10T00:58:41Z,Industrial Park,illegal_dumping,closed
-"Chemical spill reported along riverbank",2025-10-05T05:59:41Z,Old Town,e-waste,open
-"Rotting food waste attracting pests in alley",2025-10-03T04:39:41Z,Midtown,illegal_dumping,in_progress
-"Overflowing recycling bins near metro station",2025-10-16T19:13:41Z,Transit Hub,recyclables,resolved
-"Rotting food waste attracting pests in alley",2025-10-29T08:14:41Z,Transit Hub,e-waste,in_progress
-"Yard waste clogging storm drain",2025-10-31T05:59:41Z,Midtown,bulk,resolved
-"Rotting food waste attracting pests in alley",2025-11-08T01:35:41Z,Industrial Park,hazardous,resolved
-"Furniture abandoned near housing complex",2025-10-31T00:57:41Z,Riverside,bulk,resolved
-"E-waste pile of monitors and CPUs beside office",2025-11-06T12:10:41Z,Pier 14,e-waste,in_progress
-"Oil drums leaking in industrial yard",2025-11-03T20:27:41Z,Transit Hub,recyclables,open
+Food cart with coffee grounds mixed with litter near Downtown plaza.,2025-11-06T10:40:37Z,Downtown plaza,organic,resolved
+Monitor pile exposed to rain near Harbor pier.,2025-11-06T12:05:21Z,Harbor pier,e-waste,closed
+Timber bundle crushing plants near Community garden.,2025-11-06T12:45:33Z,Community garden,bulk,open
+Device crate with cables stacked without cover near Industrial park.,2025-11-06T18:54:48Z,Industrial park,e-waste,closed
+Battery rack with acidic runoff pooling near Campus edge.,2025-11-06T20:20:23Z,Campus edge,hazardous,in_progress
+Battery rack sparking beside Tech campus.,2025-11-06T20:58:13Z,Battery rack sparking beside Tech campus,hazardous,resolved
+Metal frames stacked near Transit hub.,2025-11-07T00:23:45Z,Transit hub,bulk,open
+Market dumpster with rotting scraps beside Bike lane by station.,2025-11-07T02:59:48Z,Market dumpster with rotting scraps beside Bike lane by station,organic,in_progress
+Device crate blocking loading dock near Downtown plaza.,2025-11-07T13:01:39Z,Downtown plaza,e-waste,open
+Neighborhood bin with aluminum cans jammed and uncollected near Riverbank trail.,2025-11-07T23:28:11Z,Riverbank trail,recyclables,in_progress
+Oil drum knocked on its side near Riverbank trail.,2025-11-08T05:30:14Z,Riverbank trail,hazardous,closed
+Drop-off cage with paper bundles spilling during pickup near Transit hub.,2025-11-08T05:32:40Z,Transit hub,recyclables,closed
+Appliance stack leaning on hydrant near Old Town square.,2025-11-08T05:39:38Z,Old Town square,bulk,closed
+Yard bag stack attracting flies near Recreation center.,2025-11-08T06:42:38Z,Recreation center,organic,closed
+Produce pallet collapsing near Suburban cul-de-sac.,2025-11-08T07:57:36Z,Suburban cul-de-sac,organic,open
+Curbside tote with glass jars contaminated with trash near Old Town square.,2025-11-08T14:41:46Z,Old Town square,recyclables,resolved
+Printer stack with power supplies rusting outdoors near Warehouse district.,2025-11-08T16:56:03Z,Warehouse district,e-waste,resolved
+Construction sack with site rubble spread across verge near Industrial park.,2025-11-09T04:20:39Z,Industrial park,illegal_dumping,closed
+Pickup load with mixed refuse tossed behind fence near Suburban cul-de-sac.,2025-11-09T13:47:10Z,Suburban cul-de-sac,illegal_dumping,open
+Carpet roll left for weeks near Riverbank trail.,2025-11-09T16:26:29Z,Riverbank trail,bulk,resolved
+Recycling cage with plastic bottles piled high near Tech campus.,2025-11-09T18:34:28Z,Tech campus,recyclables,resolved
+Blue recycling cart with plastic bottles overflowing onto sidewalk near Downtown plaza.,2025-11-10T00:27:31Z,Downtown plaza,recyclables,open
+Solvent barrel rusting near Community garden.,2025-11-10T04:25:15Z,Community garden,hazardous,closed
+Sofa set obstructing sidewalk near Downtown plaza.,2025-11-10T06:27:31Z,Downtown plaza,bulk,resolved
+Contractor debris burned in pit near Old Town square.,2025-11-10T07:33:22Z,Old Town square,illegal_dumping,open
+Chemical tote with toxic sludge seeping toward drain near Harbor pier.,2025-11-10T10:18:09Z,Harbor pier,hazardous,closed
+Yard bag stack with leaf piles blocking walkway near Riverbank trail.,2025-11-10T15:56:58Z,Riverbank trail,organic,closed
+Construction sack leaking debris near Tech campus.,2025-11-10T20:01:51Z,Tech campus,illegal_dumping,open
+Neighborhood bin with aluminum cans scattered by wind near Recreation center.,2025-11-11T01:32:32Z,Recreation center,recyclables,in_progress
+Curbside tote with paper bundles soaking in rain near Shopping arcade.,2025-11-11T02:54:40Z,Shopping arcade,recyclables,closed
+Mattress heap with household junk abandoned overnight near Riverbank trail.,2025-11-11T07:23:54Z,Riverbank trail,illegal_dumping,in_progress
+Mattress heap attracting pests near City park.,2025-11-11T07:43:09Z,City park,illegal_dumping,resolved
+Produce pallet with spoiled fruit smelling strongly near Market street.,2025-11-11T08:03:52Z,Market street,organic,in_progress
+Scrap lumber piled near Tech campus.,2025-11-11T09:51:11Z,Tech campus,bulk,resolved
+Drywall sheets scattered near Warehouse district.,2025-11-11T18:12:09Z,Warehouse district,bulk,in_progress
+Collection bay with cardboard flats ignored by hauler near City park.,2025-11-11T18:38:03Z,City park,recyclables,open
+Market dumpster with meat waste left in sun near Shopping arcade.,2025-11-11T18:40:36Z,Shopping arcade,organic,open
+Blue cart with mixed recyclables scattered near Community garden.,2025-11-11T18:54:15Z,Community garden,recyclables,in_progress
+Chemical tote with lab waste exposed near Old Town square.,2025-11-11T19:46:19Z,Old Town square,hazardous,open
+Furniture pieces blocking bike lane near City park.,2025-11-11T19:54:41Z,City park,bulk,closed
+Upholstery heap abandoned near Harbor pier.,2025-11-12T00:04:52Z,Harbor pier,bulk,closed
+Paint bucket spilling onto pavement near Transit hub.,2025-11-12T02:23:21Z,Transit hub,hazardous,in_progress
+Server rack with motherboards awaiting pickup near Tech campus.,2025-11-12T03:38:51Z,Tech campus,e-waste,open
+Server rack tilted beside Community garden.,2025-11-12T07:58:11Z,Server rack tilted beside Community garden,e-waste,in_progress
+Printer stack abandoned near Recreation center.,2025-11-12T09:47:14Z,Recreation center,e-waste,closed
+Compost bin overflowing near Community garden.,2025-11-12T15:20:07Z,Community garden,organic,in_progress
+Pickup load dumped near Community garden.,2025-11-12T18:47:16Z,Community garden,illegal_dumping,in_progress
+Compost bin with rotting scraps drawing pests near City park.,2025-11-12T20:01:36Z,City park,organic,open
+Solvent barrel stored without label near Downtown plaza.,2025-11-12T21:07:33Z,Downtown plaza,hazardous,resolved
+Pallet mountain encroaching roadway near Industrial park.,2025-11-12T23:05:01Z,Industrial park,bulk,in_progress
+Contractor debris stacked beside Transit hub.,2025-11-12T23:59:34Z,Contractor debris stacked beside Transit hub,illegal_dumping,in_progress
+Food cart leaking spoiled juice near Tech campus.,2025-11-13T02:49:49Z,Tech campus,organic,resolved
+Oil drum with corrosive fluid leaking onto soil near Industrial park.,2025-11-13T04:43:20Z,Industrial park,hazardous,resolved
+Trash bag pile scattered near Bike lane by station.,2025-11-13T11:24:36Z,Bike lane by station,illegal_dumping,closed
+Trash bag pile blocking fire lane near Downtown plaza.,2025-11-13T12:38:42Z,Downtown plaza,illegal_dumping,resolved
+Battery crate with lithium cells mixed with trash near Transit hub.,2025-11-13T23:59:48Z,Transit hub,e-waste,in_progress
+Battery crate leaking residue near City park.,2025-11-14T06:13:45Z,City park,e-waste,resolved
+Paint bucket with flammable mix emitting fumes near Warehouse district.,2025-11-14T06:35:45Z,Warehouse district,hazardous,open
+Monitor pile with broken screens dumped beside alley near Old Town square.,2025-11-14T07:43:08Z,Old Town square,e-waste,resolved
+Drop-off cage with glass jars shattered near Bike lane by station.,2025-11-14T09:47:00Z,Bike lane by station,recyclables,open

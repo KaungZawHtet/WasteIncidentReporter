@@ -134,17 +134,6 @@ export default function InsightsPage() {
                                     {headline}
                                 </h2>
                             </div>
-                            {typeof trendMeta.lastDayZScore === 'number' && (
-                                <span
-                                    className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                                        (trendMeta.spike ?? false)
-                                            ? 'bg-red-100 text-red-700'
-                                            : 'bg-emerald-100 text-emerald-700'
-                                    }`}
-                                >
-                                    Z-score {trendMeta.lastDayZScore.toFixed(2)}
-                                </span>
-                            )}
                         </div>
                         <LineChart data={trend} onHover={setTrendHighlight} />
                     </section>

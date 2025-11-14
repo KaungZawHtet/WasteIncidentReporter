@@ -47,13 +47,13 @@ jobs:
       - name: Create application version
         run: |
           aws elasticbeanstalk create-application-version \
-            --application-name waste-incident-staging \
+            --application-name waste-incident-be-new \
             --version-label ${{ github.sha }} \
             --source-bundle S3Bucket="elasticbeanstalk-ap-southeast-1-932133996420",S3Key="api-${{ github.sha }}.zip"
 
       - name: Deploy to environment
         run: |
           aws elasticbeanstalk update-environment \
-            --application-name waste-incident-staging \
-            --environment-name Waste-incident-staging-env \
+            --application-name waste-incident-be-new \
+            --environment-name Waste-incident-be-new-env \
             --version-label ${{ github.sha }}

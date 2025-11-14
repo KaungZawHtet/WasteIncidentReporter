@@ -419,7 +419,7 @@ export default function IncidentsPage() {
                     </form>
                 </div>
 
-                <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm lg:flex-1">
+                <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm lg:flex-1 flex flex-col">
                     <div className="flex flex-col gap-3 border-b border-zinc-100 pb-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <p className="text-xs uppercase tracking-wide text-zinc-500">
@@ -449,7 +449,7 @@ export default function IncidentsPage() {
                         </div>
                     </div>
 
-                    <div className="mt-4 overflow-x-auto">
+                    <div className="mt-4 flex-1 overflow-x-auto">
                         <table className="min-w-full text-left text-sm">
                             <thead className="text-xs uppercase tracking-wide text-zinc-500">
                                 <tr>
@@ -464,24 +464,22 @@ export default function IncidentsPage() {
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="align-middle">
                                 {fetching && (
                                     <tr>
-                                        <td
-                                            colSpan={5}
-                                            className="py-6 text-center text-zinc-500"
-                                        >
-                                            Loading incidents...
+                                        <td colSpan={5} className="py-6">
+                                            <div className="flex h-40 items-center justify-center text-sm text-zinc-500">
+                                                Loading incidents...
+                                            </div>
                                         </td>
                                     </tr>
                                 )}
                                 {!fetching && incidents.length === 0 && (
                                     <tr>
-                                        <td
-                                            colSpan={5}
-                                            className="py-6 text-center text-zinc-500"
-                                        >
-                                            No incidents reported yet.
+                                        <td colSpan={5} className="py-6">
+                                            <div className="flex h-40 items-center justify-center text-sm text-zinc-500">
+                                                No incidents reported yet.
+                                            </div>
                                         </td>
                                     </tr>
                                 )}

@@ -95,7 +95,18 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
-    app.MapHealthChecks("/health");
+    app.MapGet(
+        "/",
+        () =>
+            Results.Ok(
+                new
+                {
+                    status = "healthy",
+                    service = "Waste Incident Reporter API",
+                    timestamp = DateTimeOffset.UtcNow,
+                }
+            )
+    );
 
     app.Run();
 }

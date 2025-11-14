@@ -9,7 +9,7 @@ You can go to staging url : https://wastereport.kaungzawhtet.site/
 1. `cd backend/Api`
 2. Restore dependencies: `dotnet restore`
 3. create empty database named waste_incident on postgres
-3. Apply EF Core migrations (local dev DB): `dotnet ef database update`
+3. Apply database migrations (local dev DB): `dotnet ef database update`
 4. Run the service: `dotnet run`
 5. API defaults to `https://localhost:7049` (see `Properties/launchSettings.json` for ports)
 

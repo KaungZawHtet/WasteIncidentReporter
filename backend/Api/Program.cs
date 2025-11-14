@@ -95,7 +95,7 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
-    app.MapGet("/", () => Results.Ok(new { status = "healthy" }));
+    app.MapGet("/", () => Results.Ok("healthy"));
 
     app.Run();
 }

@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Globalization;
+using CsvHelper;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 
@@ -15,7 +13,7 @@ public class TextEmbeddingService
 
     private class Input
     {
-        public string Text { get; set; } = "";
+        public string Text { get; set; } = string.Empty;
     }
 
     private class Output
@@ -29,7 +27,7 @@ public class TextEmbeddingService
         _ml = new MLContext(seed: 42);
         var pipeline = _ml.Transforms.Text.FeaturizeText("Features", nameof(Input.Text));
 
-        var seedCorpus = BuildSeedCorpus().ToList();
+        var seedCorpus = LoadCorpusFromCsv().ToList();
         if (seedCorpus.Count == 0)
         {
             seedCorpus.Add("waste incident report");
@@ -45,57 +43,55 @@ public class TextEmbeddingService
     {
         lock (_lock)
         {
-            var data = _ml.Data.LoadFromEnumerable(new[] { new Input { Text = text ?? "" } });
+            var data = _ml.Data.LoadFromEnumerable(
+                new[] { new Input { Text = text ?? string.Empty } }
+            );
             var transformed = _model.Transform(data);
-            var outCols = _ml
+            var vector = _ml
                 .Data.CreateEnumerable<Output>(transformed, reuseRowObject: false)
                 .First();
-            return outCols.Features;
+            return vector.Features;
         }
     }
 
-    private static IEnumerable<string> BuildSeedCorpus() =>
-        new[]
+    private static IEnumerable<string> LoadCorpusFromCsv()
+    {
+        var path = ResolveEmbeddingCsvPath();
+        if (!File.Exists(path))
         {
-            "Overflowing recycling bins near metro station",
-            "Construction debris blocking bike lane downtown",
-            "Illegal dumping of mixed trash in vacant lot",
-            "Oil drums leaking in industrial yard",
-            "Rotting food waste attracting pests in alley",
-            "Chemical spill reported along riverbank",
-            "E-waste pile of monitors and CPUs beside office park",
-            "Furniture abandoned near housing complex",
-            "Yard waste clogging storm drain after storm",
-            "Plastic bottles scattered across beach boardwalk",
-            "Truck unloading debris outside permitted zone",
-            "Dumpster overflowing with cardboard and paper",
-            "Batteries and phones discarded behind electronics shop",
-            "Expired pharmaceuticals dumped behind pharmacy",
-            "Restaurant grease leaking onto sidewalk",
-            "Blue recycling carts full of glass jars",
-            "Cafe tossing spoiled produce behind building",
-            "Household trash bags thrown over park fence",
-            "Laptop screens and cables near loading dock",
-            "Abandoned copier and fax machines in lobby",
-            "Old sofa dumped beside parking lot",
-            "Demolition rubble obstructing sidewalk",
-            "Contractor dumping debris off highway ramp",
-            "Metal beams and bricks left beside trail",
-            "Pesticide containers found near community garden",
-            "Mercury thermometer broken on street",
-            "Glow sticks and lab materials leaking in trash",
-            "Curbside bins overflowing with paper and cans",
-            "Grocery store dumpster full of rotten fruit",
-            "Park littered with branches and leaves",
-            "Smartphones mixed with household trash",
-            "Server racks abandoned behind data center",
-            "Holiday tree pile blocking community garden gate",
-            "Spoiled meat leaking from grocery compactor",
-            "Hazardous solvent drums rusting on pier",
-            "Contractor disposing rubble in public park",
-            "Dumpster contents spread across alley overnight",
-            "Trash trailers emptying along rural roadside",
-            "Large tree limbs stacked beside bike path",
-            "Plastic packaging blowing across parking lot",
-        };
+            return Array.Empty<string>();
+        }
+
+        try
+        {
+            using var reader = new StreamReader(path);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            if (!csv.Read())
+            {
+                return Array.Empty<string>();
+            }
+
+            csv.ReadHeader();
+            var rows = new List<string>();
+            while (csv.Read())
+            {
+                var text = csv.GetField("text");
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    rows.Add(text.Trim());
+                }
+            }
+
+            return rows;
+        }
+        catch
+        {
+            return Array.Empty<string>();
+        }
+    }
+
+    private static string ResolveEmbeddingCsvPath() =>
+        Path.Combine(AppContext.BaseDirectory, "db", "text_embedding_corpus.csv");
+
+ 
 }

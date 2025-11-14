@@ -430,12 +430,7 @@ export default function IncidentsPage() {
                             </h2>
                         </div>
                         <div className="flex flex-wrap items-center gap-2">
-                            <button
-                                onClick={() => fetchIncidents(page)}
-                                className="inline-flex items-center justify-center rounded-full border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
-                            >
-                                Refresh
-                            </button>
+                            
                             <button
                                 type="button"
                                 onClick={handleImportClick}
@@ -461,7 +456,9 @@ export default function IncidentsPage() {
                                     <th className="py-2 pr-4">Incident</th>
                                     <th className="px-4 py-2">Location</th>
                                     <th className="px-4 py-2">Category</th>
-                                    <th className="px-4 py-2">Status</th>
+                                    <th className="px-4 py-2 min-w-[8rem]">
+                                        Status
+                                    </th>
                                     <th className="px-4 py-2 text-right">
                                         Actions
                                     </th>
@@ -509,7 +506,7 @@ export default function IncidentsPage() {
                                         <td className="px-4 py-3">
                                             {incident.category || '—'}
                                         </td>
-                                        <td className="px-4 py-3">
+                                        <td className="px-4 py-3 min-w-[8rem]">
                                             <StatusBadge
                                                 status={incident.status}
                                             />

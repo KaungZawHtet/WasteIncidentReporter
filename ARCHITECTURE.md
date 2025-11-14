@@ -2,19 +2,19 @@
 
 This is overview of The entire project.
 
-## High-Level Diagram (Textual)
+## High-Level Diagram
 ```
 Browser (Next.js App on Amplify)
     │  HTTPS (REST)
     ▼
-Elastic Beanstalk Load Balancer (HTTPS)
+Elastic Beanstalk in Load Balancer Mode (HTTPS)
     │  ASP.NET Core API
     ▼
 Backend (EC2 instances managed by EB)
     │
-    ├─ PostgreSQL (RDS or local) for incident data + vectors
+    ├─ PostgreSQL for incident data + vectors
     ├─ ML.NET services in-memory (TF-IDF embeddings, classification)
-    └─ CSV storage handled transiently during imports
+
 ```
 
 ## Frontend
@@ -35,7 +35,7 @@ Backend (EC2 instances managed by EB)
 - Observability: Serilog console logs, `/health` & `/` endpoints for ELB.
 
 ## Data & AI Flow
-1. **Ingestion** – Incidents saved via API or CSV import. Text descriptions are vectorized (TF-IDF) immediately and stored in PostgreSQL.
+1. **Model Initiation** – Train the two models on the bootstrap period.
 2. **Similarity Search** – When users request “Similar Incidents,” vectors are compared via cosine similarity; thresholds drive UI messaging (e.g., 0.7 = high similarity).
 3. **Classification** – `WasteClassificationService` predicts a waste category using ML.NET’s OneVersusAll + L-BFGS logistic regression.
 4. **Insights** – Trend service aggregates counts per day and computes spike z-scores; anomaly service detects outliers via rolling window standard deviations; admin summary converts raw stats into English text.
@@ -43,10 +43,10 @@ Backend (EC2 instances managed by EB)
 ## Persistence
 - Database: PostgreSQL ( managed RDS in AWS).
 - Schema: `Incidents` table includes `Id`, `Description`, `Timestamp`, `Location`, `Category`, `Status`, `TextVector` (double precision array).
-- Seeding: SQL script (`backend/db/seed_incidents.sql`) and CSV sample (`backend/db/sample_incidents.csv`) for ~100 entries.
+- Seeding: CSV samples (`backend/db/waste_classification_samples.csv` and `backend/db/text_embedding_corpus.csv` ) for ~1000 entries.
 
 ## Deployment Pipeline
-This is a brief CI/CD Flow. 
+This is a brief of CI/CD Flow. 
 
 - GitHub Actions workflow `.github/workflows/deploy-api.yml`:
   1. Restore + test backend.

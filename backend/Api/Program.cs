@@ -72,6 +72,7 @@ try
     Directory.CreateDirectory(logsPath);
 
     builder.Services.AddControllers();
+    builder.Services.AddHealthChecks();
 
     // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
     builder.Services.AddOpenApi();
@@ -94,6 +95,7 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
+    app.MapHealthChecks("/health");
 
     app.Run();
 }

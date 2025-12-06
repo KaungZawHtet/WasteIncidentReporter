@@ -21,4 +21,3 @@ Full-stack prototype that helps city operators log waste incidents, detect dupli
 - [AI_APPROACH.md](AI_APPROACH.md) – describes ML/AI techniques used.
 - [ARCHITECTURE.md](ARCHITECTURE.md) – high-level system diagram and flows.
 - [HOW_TO_RUN.md](HOW_TO_RUN.md) – quickstart guide.
-- [BUG_LOG.md](BUG_LOG.md) – how we can manage bug on notable bugs
